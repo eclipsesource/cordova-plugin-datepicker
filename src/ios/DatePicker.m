@@ -24,6 +24,7 @@
 @property (nonatomic) IBOutlet UIButton *cancelButton;
 @property (nonatomic) IBOutlet UIButton *doneButton;
 @property (nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (strong) NSString *callbackId;
 
 @end
 
@@ -35,6 +36,7 @@
 #pragma mark - UIDatePicker
 
 - (void)show:(CDVInvokedUrlCommand*)command {
+  self.callbackId = command.callbackId;
   NSMutableDictionary *options = [command argumentAtIndex:0];
   //if (isIPhone) {
     [self showForPhone: options];
@@ -145,17 +147,14 @@
 #pragma mark - JS API
 
 - (void)jsCancel {
-  NSLog(@"JS Cancel is going to be executed");
-  NSString *jsCallback = @"datePicker._dateSelectionCanceled();";
-    
-  [self.commandDelegate evalJs:jsCallback];
+  CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+  [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
 }
 
 - (void)jsDateSelected {
   NSTimeInterval seconds = [self.datePicker.date timeIntervalSince1970];
-  NSString *jsCallback = [NSString stringWithFormat:@"datePicker._dateSelected(\"%f\");", seconds];
-    
-  [self.commandDelegate evalJs:jsCallback];
+  CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:seconds];
+  [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
 }
 
 
