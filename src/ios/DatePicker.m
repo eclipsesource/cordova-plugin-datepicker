@@ -64,11 +64,11 @@
   [self.datePickerContainer removeFromSuperview];
   
   if(UIInterfaceOrientationIsLandscape(deviceOrientation)){
-    width = self.webView.superview.frame.size.width;
-    height= self.webView.superview.frame.size.height;
+    width = self.webView.frame.size.width;
+    height= self.webView.frame.size.height;
   } else {
-    width = self.webView.superview.frame.size.width;
-    height= self.webView.superview.frame.size.height;
+    width = self.webView.frame.size.width;
+    height= self.webView.frame.size.height;
   }
 
   NSLog(@"%.2f", width);
@@ -76,7 +76,7 @@
 
   self.datePickerContainer.frame = CGRectMake(0, 0, width, height);
   
-  [self.webView.superview addSubview: self.datePickerContainer];
+  [self.webView addSubview: self.datePickerContainer];
   [self.datePickerContainer layoutIfNeeded];
 
   CGRect frame = self.datePickerComponentsContainer.frame;
@@ -193,7 +193,7 @@
   UIPopoverArrowDirection arrowDirection = [[options objectForKey:@"popoverArrowDirection"] intValue];
   
   CGRect anchor = CGRectMake(x, y, 1, 1);
-  [popover presentPopoverFromRect:anchor inView:self.webView.superview  permittedArrowDirections:arrowDirection animated:YES];
+  [popover presentPopoverFromRect:anchor inView:self.webView  permittedArrowDirections:arrowDirection animated:YES];
   
   return popover;
 }
